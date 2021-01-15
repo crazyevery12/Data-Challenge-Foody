@@ -7,17 +7,19 @@ from selenium.webdriver.common.action_chains import ActionChains
 import time
 import shutil
 
-# Web driver for Chrome
-chrome_options = webdriver.ChromeOptions()
-prefs = {"profile.default_content_setting_values.notifications": 2}
-chrome_options.add_experimental_option("prefs", prefs)
-driver = webdriver.Chrome(r'path\\to\\driver', chrome_options=chrome_options)
-
-# Web driver for FireFox
-# BROWSER_EXE = 'path/to/driver'
-# FirefoxBinary = FirefoxBinary(BROWSER_EXE)
-# options = webdriver.FirefoxOptions()
-# driver = webdriver.Firefox(firefox_options=options)
+def configure_driver():
+    # Web driver for Chrome
+    chrome_options = webdriver.ChromeOptions()
+    prefs = {"profile.default_content_setting_values.notifications": 2}
+    chrome_options.add_experimental_option("prefs", prefs)
+    driver = webdriver.Chrome(r'path\\to\\driver', chrome_options=chrome_options)
+    # driver = webdriver.Chrome(r'C:\Users\tranv\Desktop\Python Project\chromedriver.exe', chrome_options=chrome_options)
+    # Web driver for FireFox
+    # BROWSER_EXE = 'path/to/driver'
+    # FirefoxBinary = FirefoxBinary(BROWSER_EXE)
+    # options = webdriver.FirefoxOptions()
+    # driver = webdriver.Firefox(firefox_options=options)
+    return driver
 
 items = FoodyItem()
 number_shops = 1992
