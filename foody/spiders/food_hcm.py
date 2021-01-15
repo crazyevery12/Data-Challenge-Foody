@@ -99,7 +99,7 @@ class FoodHcmSpider(scrapy.Spider):
 
     def spider_closed(self, spider):
         spider.logger.info('Spider closed: %s', spider.name)
-        shutil.move("FOOD_DN.csv", 'C:\\Users\\tranv\\Desktop\\Python Project\\Data Challenge 1\\foody\Report')
+        shutil.move("FOOD_HCM.csv", 'C:\\Users\\tranv\\Desktop\\Python Project\\Data Challenge 1\\foody\Report')
 
     def parse(self, response):
         print('Url: ', response.request.url)
