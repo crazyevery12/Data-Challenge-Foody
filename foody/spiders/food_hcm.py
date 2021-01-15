@@ -6,21 +6,24 @@ from selenium.webdriver.common.action_chains import ActionChains
 import time
 import shutil
 
-# Web driver for Chrome
-chrome_options = webdriver.ChromeOptions()
-prefs = {"profile.default_content_setting_values.notifications": 2}
-chrome_options.add_experimental_option("prefs", prefs)
-driver = webdriver.Chrome(r'path\\to\\driver', chrome_options=chrome_options)
-
-# Web driver for FireFox
-# BROWSER_EXE = 'path/to/driver'
-# FirefoxBinary = FirefoxBinary(BROWSER_EXE)
-# options = webdriver.FirefoxOptions()
-# driver = webdriver.Firefox(firefox_options=options)
-
 
 items = FoodyItem()
 number_shops = 1992
+
+
+def configure_driver():
+    # Web driver for Chrome
+    chrome_options = webdriver.ChromeOptions()
+    prefs = {"profile.default_content_setting_values.notifications": 2}
+    chrome_options.add_experimental_option("prefs", prefs)
+    driver = webdriver.Chrome(r'path\\to\\driver', chrome_options=chrome_options)
+    # driver = webdriver.Chrome(r'C:\Users\tranv\Desktop\Python Project\chromedriver.exe', chrome_options=chrome_options)
+    # Web driver for FireFox
+    # BROWSER_EXE = 'path/to/driver'
+    # FirefoxBinary = FirefoxBinary(BROWSER_EXE)
+    # options = webdriver.FirefoxOptions()
+    # driver = webdriver.Firefox(firefox_options=options)
+    return driver
 
 
 def get_food_info(element):
@@ -29,7 +32,7 @@ def get_food_info(element):
     return href
 
 
-def get_all_shops(shop_xpath, url):
+def get_all_shops(driver,shop_xpath, url):
     driver.get(url)
     while True:
         shops = driver.find_elements_by_xpath(shop_xpath)
@@ -99,9 +102,10 @@ class FoodHcmSpider(scrapy.Spider):
 
     def spider_closed(self, spider):
         spider.logger.info('Spider closed: %s', spider.name)
-        shutil.move("FOOD_HCM.csv", 'C:\\Users\\tranv\\Desktop\\Python Project\\Data Challenge 1\\foody\Report')
+        # shutil.move("FOOD_HCM.csv", 'C:\\Users\\tranv\\Desktop\\Python Project\\Data Challenge 1\\foody\Report')
 
     def parse(self, response):
+        driver = configure_driver()
         print('Url: ', response.request.url)
         redirect_url = log_in(driver, response)
         print('Redirect_url: ', redirect_url)
