@@ -31,7 +31,7 @@ def get_food_info(element):
     return href
 
 
-def get_all_shops(shop_xpath, url):
+def get_all_shops(driver, shop_xpath, url):
     driver.get(url)
     while True:
         shops = driver.find_elements_by_xpath(shop_xpath)
@@ -104,9 +104,10 @@ class FoodDnSpider(scrapy.Spider):
         shutil.move("FOOD_DN.csv", 'C:\\Users\\tranv\\Desktop\\Python Project\\Data Challenge 1\\foody\Report')
 
     def parse(self, response):
+        driver = configure_driver()
         redirect_url = log_in(driver, response)
         shop_xpath = '//div[contains(@class, "content-item")]'
-        shops = get_all_shops(shop_xpath, redirect_url)
+        shops = get_all_shops(driver,shop_xpath, redirect_url)
         urls = [get_food_info(s) for s in shops]
 
         for url in urls:
