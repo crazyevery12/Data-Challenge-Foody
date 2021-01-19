@@ -95,13 +95,13 @@ def to_sql(csv_file):
     cursor = conn.cursor()
 
     # Create Table
-    cursor.execute('CREATE TABLE foody_info (Name nvarchar(50),Position nvarchar(50), Price int(2), Quality int(2),Service int(2), Space int(2), ZAvg_Score int(2) )')
+    cursor.execute('CREATE TABLE IF NOT EXISTS foody_info (Name varchar(100),Position float(5), Price float(5), Quality float(5),Service float(5), Space float(5), ZAvg_Score float(5) )')
 
     # Insert DataFrame to Table
     for row in df.itertuples():
         cursor.execute('''
-                    INSERT INTO TestDB.dbo.people_info (Name,Position,Price,Quality,Service,Space,ZAvg_Score)
-                    VALUES (?,?,?)
+                    INSERT INTO FoodyDB.dbo.foody_info (Name,Position,Price,Quality,Service,Space,ZAvg_Score)
+                    VALUES (?,?,?,?,?,?,?)
                     ''',
                     row.Name,
                     row.Position,
