@@ -7,8 +7,13 @@ import pyodbc
 import pandas as pd
 
 
+# folder_path = 'C:\\Users\\tranv\\Desktop\\Python Project\\Data Challenge 1\\foody\\Report'
+folder_path = ''
+
+
 class Watcher:
-    DIRECTORY_TO_WATCH = 'C:\\Users\\tranv\\Desktop\\Python Project\\Data Challenge 1\\foody\\Report'
+    DIRECTORY_TO_WATCH = folder_path
+
     def __init__(self):
         self.observer = Observer()
 
@@ -75,8 +80,6 @@ def generate_report(csv_file):
     clean_name = run_jupyter(csv_file, 'Template.ipynb')
     notebook_name = f"{clean_name}.ipynb"
     generate_pdf(notebook_name)
-    pdf_report_name = f"{clean_name}.pdf"
-    print(pdf_report_name)
 
 
 def to_sql(csv_file):

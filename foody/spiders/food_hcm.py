@@ -6,21 +6,26 @@ from selenium.webdriver.common.action_chains import ActionChains
 import time
 import shutil
 
-# Web driver for Chrome
-chrome_options = webdriver.ChromeOptions()
-prefs = {"profile.default_content_setting_values.notifications": 2}
-chrome_options.add_experimental_option("prefs", prefs)
-driver = webdriver.Chrome(r'path\\to\\driver', chrome_options=chrome_options)
-
-# Web driver for FireFox
-# BROWSER_EXE = 'path/to/driver'
-# FirefoxBinary = FirefoxBinary(BROWSER_EXE)
-# options = webdriver.FirefoxOptions()
-# driver = webdriver.Firefox(firefox_options=options)
-
 
 items = FoodyItem()
 number_shops = 1992
+# driver_path = r'C:\Users\tranv\Desktop\Python Project\chromedriver.exe'
+driver_path = r'path\to\webdriver'
+
+
+def configure_driver():
+    # Web driver for Chrome
+    chrome_options = webdriver.ChromeOptions()
+    prefs = {"profile.default_content_setting_values.notifications": 2}
+    chrome_options.add_experimental_option("prefs", prefs)
+    driver = webdriver.Chrome(driver_path, chrome_options=chrome_options)
+
+    # Web driver for FireFox
+    # BROWSER_EXE = 'path/to/driver'
+    # FirefoxBinary = FirefoxBinary(BROWSER_EXE)
+    # options = webdriver.FirefoxOptions()
+    # driver = webdriver.Firefox(firefox_options=options)
+    return driver
 
 
 def get_food_info(element):
@@ -29,7 +34,7 @@ def get_food_info(element):
     return href
 
 
-def get_all_shops(shop_xpath, url):
+def get_all_shops(driver, shop_xpath, url):
     driver.get(url)
     while True:
         shops = driver.find_elements_by_xpath(shop_xpath)
@@ -76,7 +81,7 @@ def log_in(driver, response):
     driver.find_element_by_xpath('//input[contains(@id, "Password")]').send_keys("bgear1181998")
     driver.find_element_by_xpath('//input[contains(@id, "bt_submit")]').click()
     time.sleep(3)
-    url = response.request.url
+    url = 'https://www.foody.vn//'
     return url
 
 
@@ -99,23 +104,21 @@ class FoodHcmSpider(scrapy.Spider):
 
     def spider_closed(self, spider):
         spider.logger.info('Spider closed: %s', spider.name)
-        shutil.move("FOOD_DN.csv", 'C:\\Users\\tranv\\Desktop\\Python Project\\Data Challenge 1\\foody\Report')
+        shutil.move("FOOD_HCM.csv", 'path\\to\\Report directory')
+        # shutil.move("FOOD_HCM.csv", 'C:\\Users\\tranv\\Desktop\\Python Project\\Data Challenge 1\\foody\Report')
 
     def parse(self, response):
-        print('Url: ', response.request.url)
+        driver = configure_driver()
         redirect_url = log_in(driver, response)
-        print('Redirect_url: ', redirect_url)
-        # shop_xpath = '//div[contains(@class, "content-item")]'
-        # shops = get_all_shops(shop_xpath, redirect_url)
-        # urls = [get_food_info(s) for s in shops]
-        #
-        # for url in urls:
-        #     if url is not None:
-        #         print(url)
-        #         driver.get(url)
-        #         find_shop_name(driver)
-        #         find_reviews_points(driver)
-        #         yield items
-        #         time.sleep(0.5)
-        #         print()
-        # pass
+        shop_xpath = '//div[contains(@class, "content-item")]'
+        shops = get_all_shops(driver, shop_xpath, redirect_url)
+        urls = [get_food_info(s) for s in shops]
+
+        for url in urls:
+            if url is not None:
+                driver.get(url)
+                find_shop_name(driver)
+                find_reviews_points(driver)
+                yield items
+                time.sleep(0.5)
+        pass
