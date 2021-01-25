@@ -91,12 +91,6 @@ class FoodDnSpider(scrapy.Spider):
     allowed_domains = ['www.foody.vn/da-nang']
     start_urls = ['https://www.foody.vn/da-nang']
 
-    custom_settings = {
-        "ITEM_PIPELINES": {
-            "foody.pipelines.FoodyPipeline": 300
-        }
-    }
-
     @classmethod
     def from_crawler(cls, crawler, *args, **kwargs):
         spider = super(FoodDnSpider, cls).from_crawler(crawler, *args, **kwargs)
@@ -105,7 +99,7 @@ class FoodDnSpider(scrapy.Spider):
 
     def spider_closed(self, spider):
         spider.logger.info('Spider closed: %s', spider.name)
-        shutil.move("FOOD_HCM.csv", 'path\\to\\Report directory')
+        shutil.move("FOOD_DN.csv", 'path\\to\\Report directory')
         # shutil.move("FOOD_DN.csv", 'C:\\Users\\tranv\\Desktop\\Python Project\\Data Challenge 1\\foody\Report')
 
     def parse(self, response):

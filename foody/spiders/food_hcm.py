@@ -90,12 +90,6 @@ class FoodHcmSpider(scrapy.Spider):
     allowed_domains = ['www.foody.vn//']
     start_urls = ['https://www.foody.vn//']
 
-    custom_settings = {
-        "ITEM_PIPELINES": {
-            "foody.pipelines.FoodyPipeline": 300
-        }
-    }
-
     @classmethod
     def from_crawler(cls, crawler, *args, **kwargs):
         spider = super(FoodHcmSpider, cls).from_crawler(crawler, *args, **kwargs)
