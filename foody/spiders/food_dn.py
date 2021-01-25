@@ -9,7 +9,7 @@ import shutil
 
 
 items = FoodyItem()
-number_shops = 1992
+number_foods = 1992
 # driver_path = r'C:\Users\tranv\Desktop\Python Project\chromedriver.exe'
 driver_path = r'path\to\webdriver'
 
@@ -38,8 +38,8 @@ def get_food_info(element):
 def get_all_shops(driver, shop_xpath, url):
     driver.get(url)
     while True:
-        shops = driver.find_elements_by_xpath(shop_xpath)
-        if len(shops) == number_shops:
+        foods = driver.find_elements_by_xpath(shop_xpath)
+        if len(foods) == number_foods:
             break
         else:
             driver.execute_script('window.scrollTo(0, document.body.scrollHeight);')
@@ -48,9 +48,9 @@ def get_all_shops(driver, shop_xpath, url):
             actions = ActionChains(driver)
             actions.move_to_element(more_btn).click().perform()
             time.sleep(2)
-    for f in shops:
+    for f in foods:
         get_food_info(f)
-    return shops
+    return foods
 
 
 def find_reviews_points(driver):
@@ -71,7 +71,7 @@ def find_reviews_points(driver):
     items['ZAvg_Score'] = point_avg
 
 
-def find_shop_name(driver):
+def find_food_name(driver):
     name = driver.find_element_by_xpath('//div[contains(@class, "main-info-title")]/h1').text
     items['Name'] = name
 
@@ -118,7 +118,7 @@ class FoodDnSpider(scrapy.Spider):
         for url in urls:
             if url is not None:
                 driver.get(url)
-                find_shop_name(driver)
+                find_food_name(driver)
                 find_reviews_points(driver)
                 yield items
                 time.sleep(0.5)
