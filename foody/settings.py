@@ -62,9 +62,15 @@ ROBOTSTXT_OBEY = True
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'foody.pipelines.FoodyPipeline': 300,
-#}
+ITEM_PIPELINES = {
+   'foody.pipelines.FoodyPipeline': 300,
+    'foody.pipelines.MongoPipeline': 301
+}
+
+# MONGO_URI = ''
+# MONGO_DATABASE = ''
+MONGO_URI = 'mongodb://localhost:27017'
+MONGO_DATABASE = 'foody'
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
