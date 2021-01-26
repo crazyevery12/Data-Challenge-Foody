@@ -10,3 +10,5 @@ matplotlib == 3.3.2
 jupyterlab == 2.2.6
 jupyterlab_widgets == 1.0.0
 nbconvert == 6.0.7
+pymongo == 3.11.0
+pyodbc == 4.0.30
