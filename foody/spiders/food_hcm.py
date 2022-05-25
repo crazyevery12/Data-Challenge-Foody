@@ -8,6 +8,8 @@ import shutil
 
 
 items = FoodyItem()
+user_name = #
+password = #
 number_foods = 1992
 # driver_path = r'C:\Users\tranv\Desktop\Python Project\chromedriver.exe'
 driver_path = r'path\to\webdriver'
@@ -77,8 +79,8 @@ def find_food_name(driver):
 
 def log_in(driver, response):
     driver.get('https://id.foody.vn/account/login?returnUrl=https://www.foody.vn//')
-    driver.find_element_by_xpath('//input[contains(@id, "Email")]').send_keys("tranvuhoanganh9a11@gmail.com")
-    driver.find_element_by_xpath('//input[contains(@id, "Password")]').send_keys("bgear1181998")
+    driver.find_element_by_xpath('//input[contains(@id, "Email")]').send_keys(user_name)
+    driver.find_element_by_xpath('//input[contains(@id, "Password")]').send_keys(password)
     driver.find_element_by_xpath('//input[contains(@id, "bt_submit")]').click()
     time.sleep(3)
     url = 'https://www.foody.vn//'
